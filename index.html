@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razan & Sary's Wedding</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            width: 500vw;
+            height: 100vh;
+            transition: transform 0.5s ease-in-out;
+            touch-action: pan-y;
+        }
+        .section {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 1.5em;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+        .first { background-image: url('photo.jpg'); }
+        .second { background-image: url('photo1.jpg'); }
+        .third { background-image: url('photo2.jpg'); }
+        .fourth { background-image: url('photo3.jpg'); }
+        .fifth { background-image: url('photo4.jpg'); }
+        .wrapper {
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+        .slideshow {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 50vh;
+            overflow: hidden;
+        }
+        .slideshow img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .slideshow img.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="slideshow">
+            <img src="slide1.jpg" class="active" alt="Slide 1">
+            <img src="slide2.jpg" alt="Slide 2">
+            <img src="slide3.jpg" alt="Slide 3">
+        </div>
+        <div class="container" id="slider">
+            <div class="section first">Razan & Sary</div>
+            <div class="section second">
+                <p>لِتَسْكُذُ إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَ</p>
+                <p>(سورة الروم: الآية 21)</p>
+                <p>Together With Their Families<br>Razan & Sary</p>
+                <p>Mr. Haytham & Mrs. Suzan<br>Eng. Ahmad & Mrs. Jamile</p>
+                <p>Kibbi - Ghassani</p>
+                <p>As we embark on this beautiful journey together, we invite you to join us in celebrating our love at our wedding.</p>
+            </div>
+            <div class="section third">
+                <p><strong>Wedding Ceremony</strong></p>
+                <p>Date: September 05, 2024</p>
+                <p>Time: 07:30 PM</p>
+                <p>Location: Sofia Palace, Rmayleh</p>
+            </div>
+            <div class="section fourth">
+                <p><strong>Gift Registry</strong></p>
+                <p>Your presence at our wedding is the greatest gift we could ask for.</p>
+                <p>In Ghana: First National Bank Account# 62002184109 / SWIFT CODE: FIRNGHAC</p>
+                <p>In Lebanon: Whish Money: 20378676-03 Razan Kibbi</p>
+            </div>
+            <div class="section fifth">
+                <p><strong>RSVP</strong></p>
+                <p>Please submit your response before August 15, 2024.</p>
+                <form action="https://formsubmit.co/elias.neemtallah@outlook.com" method="POST">
+                    <label><input type="radio" name="rsvp" value="yes"> Yes, I will attend</label><br>
+                    <label><input type="radio" name="rsvp" value="no"> No, I cannot attend</label><br>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentIndex = 0;
+        const totalSections = 4;
+        const slider = document.getElementById("slider");
+
+        window.addEventListener("wheel", function(event) {
+            if (event.deltaY > 0) {
+                currentIndex = Math.min(currentIndex + 1, totalSections);
+            } else {
+                currentIndex = Math.max(currentIndex - 1, 0);
+            }
+            slider.style.transform = `translateX(-${currentIndex * 100}vw)`;
+        });
+
+        let startX = 0;
+        document.addEventListener("touchstart", function(event) {
+            startX = event.touches[0].clientX;
+        });
+
+        document.addEventListener("touchend", function(event) {
+            let endX = event.changedTouches[0].clientX;
+            if (startX - endX > 50) {
+                currentIndex = Math.min(currentIndex + 1, totalSections);
+            } else if (endX - startX > 50) {
+                currentIndex = Math.max(currentIndex - 1, 0);
+            }
+            slider.style.transform = `translateX(-${currentIndex * 100}vw)`;
+        });
+
+        let slideIndex = 0;
+        const slides = document.querySelectorAll(".slideshow img");
+
+        function showSlides() {
+            slides.forEach(slide => slide.classList.remove("active"));
+            slides[slideIndex].classList.add("active");
+            slideIndex = (slideIndex + 1) % slides.length;
+        }
+        setInterval(showSlides, 3000);
+    </script>
+</body>
+</html>
